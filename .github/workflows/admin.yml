@@ -1,0 +1,33 @@
+name: Admin
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'habit-tracker-admin/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'habit-tracker-admin/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: habit-tracker-admin/package-lock.json
+
+      - name: Install dependencies
+        working-directory: habit-tracker-admin
+        run: npm ci
+
+      - name: Build
+        working-directory: habit-tracker-admin
+        run: npm run build
